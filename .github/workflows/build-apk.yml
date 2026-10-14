@@ -22,16 +22,18 @@ jobs:
         run: npm install
         
       - name: Prebuild Android
-        run: npx expo prebuild --platform android --non-interactive --no-install
+        run: |
+          rm -rf android
+          npx expo prebuild --platform android --non-interactive --clean
         
       - name: Make gradlew executable
         run: chmod +x android/gradlew
         
-      - name: Build APK
-        run: cd android && ./gradlew assembleRelease --no-daemon
+      - name: Build APK Debug
+        run: cd android && ./gradlew assembleDebug --no-daemon --stacktrace
         
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Khata-Book-APK
-          path: android/app/build/outputs/apk/release/app-release.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk

@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Khata Book",
+    "slug": "khata-book",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.khalidjan.khatabook"
+    }
+  }
+}

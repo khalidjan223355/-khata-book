@@ -1,0 +1,28 @@
+name: Build Khata Book APK
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Prebuild Android
+        run: npx expo prebuild --platform android --non-interactive --no-install
+      - name: Build APK
+        run: cd android && chmod +x gradlew && ./gradlew assembleRelease
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Khata-Book-APK
+          path: android/app/build/outputs/apk/release/app-release.apk
